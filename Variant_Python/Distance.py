@@ -1,6 +1,3 @@
-
-#!/usr/bin/python3
-
 from math import pi, sin, cos, sqrt, acos
 
 def Dist( latit1, longit1, latit2, longit2):
