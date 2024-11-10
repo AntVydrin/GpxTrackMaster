@@ -3,22 +3,27 @@
 
 import ReadRawGpxData as readGPX
 import ProcessingOfRawData as PRWD
+import CreatePlot as crP
+import sys
 
-def main():
-    FileName = 'testFiles/trek_small.gpx'#Трек_Памир_2#trek_small
-    rawData = readGPX.RawDataFind(FileName)
+
+def main(fileName):
+    
+    rawData = readGPX.RawDataFind(fileName)
+    """
     n = min(5,len(rawData))
     for i in range(0,n):
         print(rawData[i])
-
-    PRWD.FindDistance(rawData)
-    #dist = Distance.Dist(theElev[0][0][0],theElev[0][0][1],theElev[2][0][0],theElev[2][0][1])
-    #print(dist)
-
-    #ProcessedData =
-
-    #CreatePlot(ProcessedData)
+    """
+    ProcessedData = PRWD.TrekDataList(rawData)
     
+    crP.CreatePlot(ProcessedData)
 
 if __name__ == '__main__':
-    main()
+    if len (sys.argv) > 1:
+       fileName = sys.argv[1]
+    else:
+       print("Не введён путь к файлу трека!!!")
+       fileName = 'testFiles/Трек_Памир2021.gpx'#Трек_Памир_2#trek_small  Трек_Памир2021
+
+    main(fileName)

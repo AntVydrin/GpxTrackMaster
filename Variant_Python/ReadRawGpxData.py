@@ -51,7 +51,7 @@ def RawDataFind(fileName):
         elev = rawData.elev.value
         coord["lat"] = rawData.latitude.value
         coord["lon"] = rawData.longitude.value
-        add = {"coord": coord, "elev": elev,"date": date}
+        add = {"coord": coord.copy(), "elev": elev,"date": date}
 
         #Данные текущей точки записываем
         trek.append(add)
