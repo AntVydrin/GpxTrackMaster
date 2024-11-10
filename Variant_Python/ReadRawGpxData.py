@@ -2,17 +2,17 @@
 # -*- coding: utf-8 -*import
 
 import sys
-import RawGPXData
+import RawGPXData #функционал поиска и хранения сырых данных из трека
 
 #Чтение файла gpx  Запись высот, координат, даты
-#Возвращает лист trek
+#Возвращает данные трека (trek)
 def RawDataFind(fileName):
  with open(fileName) as f:
    trek = [] #данные трека
 
    #Временные буферные переменные
    elev = 0 #Высота
-   coord = [] # Координаты точки
+   coord = {"lat": 0.0, "lon": 0.0} # Координаты точки
    date = ""
    rawData = RawGPXData.RawGPX()
 
@@ -49,12 +49,15 @@ def RawDataFind(fileName):
       if lineF.find('/trkpt') != -1:
         date = rawData.dateData.value
         elev = rawData.elev.value
-        coord.append(rawData.latitude.value)
-        coord.append(rawData.longitude.value)
-        add = [coord,elev,date]
+        coord["lat"] = rawData.latitude.value
+        coord["lon"] = rawData.longitude.value
+        add = {"coord": coord, "elev": elev,"date": date}
+
+        #Данные текущей точки записываем
         trek.append(add)
+
+        #"обнуляем" временные переменные
         elev = 0
-        coord = []
         date = ""
          
  return trek
