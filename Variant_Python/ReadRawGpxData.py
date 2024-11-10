@@ -6,7 +6,7 @@ import RawGPXData
 
 #Чтение файла gpx  Запись высот, координат, даты
 #Возвращает лист trek
-def ElevList(fileName):
+def RawDataFind(fileName):
  with open(fileName) as f:
    trek = [] #данные трека
 
