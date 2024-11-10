@@ -2,8 +2,9 @@
 # -*- coding: utf-8 -*import
 
 import sys
+import RawGPXData
 
-#Чтение файла gpx  Запись высот и координат
+#Чтение файла gpx  Запись высот, координат, даты
 #Возвращает лист trek
 def ElevList(fileName):
  with open(fileName) as f:
@@ -13,6 +14,7 @@ def ElevList(fileName):
    elev = 0 #Высота
    coord = [] # Координаты точки
    date = ""
+   rawData = RawGPXData.RawGPX()
 
    #Началась ли основная информация трека
    iCanRead = False
@@ -27,59 +29,28 @@ def ElevList(fileName):
       #Широта
       isFind = lineF.find('lat')
       if isFind != -1: #Находим широту
-           coordIns=''
-           isBreak = False
-           for i in range(isFind,len(lineF)):
-             if lineF[i].isdigit() or lineF[i]=='.': 
-               coordIns += (lineF[i])
-               isBreak = True
-             else:
-               if isBreak:
-                 break
-           if isBreak:
-             coord.append(float(coordIns))
+            rawData.latitude.ReadFromGPX(isFind, lineF)
            
       #Долгота
       isFind = lineF.find('lon')
       if isFind != -1: #Находим долготу
-           coordIns=''
-           isBreak = False
-           for i in range(isFind,len(lineF)):
-             if lineF[i].isdigit() or lineF[i]=='.': 
-               coordIns += (lineF[i])
-               isBreak = True
-             else:
-               if isBreak:
-                 break
-           if isBreak:
-             coord.append(float(coordIns))
+            rawData.longitude.ReadFromGPX(isFind, lineF)
 
       #Высота
-      if lineF.find('<ele>')!=-1:
-           num=lineF.find("<ele>")
-           elevTemp=''
-           for i in range(num,len(lineF)):
-             if lineF[i].isdigit() or lineF[i]=='.': 
-               elevTemp+=lineF[i]
-
-           elev = (float(elevTemp))
+      num=lineF.find("<ele>")
+      if num!=-1:
+            rawData.elev.ReadFromGPX(num, lineF)
 
       #Дата
       isFind = lineF.find("<time>")
       if isFind != -1:
-           timeTemp = ''
-           isBreak = False
-           for i in range(isFind,lineF.find("</time>")):
-             if lineF[i].isdigit() or lineF[i]=='-': 
-               timeTemp += lineF[i]
-               isBreak = True
-             else:
-               if isBreak:
-                 break
-           if isBreak: 
-             date = timeTemp
+            rawData.dateData.ReadFromGPX(isFind, lineF)
 
-      if lineF.find('/trkpt')!=-1:
+      if lineF.find('/trkpt') != -1:
+        date = rawData.dateData.value
+        elev = rawData.elev.value
+        coord.append(rawData.latitude.value)
+        coord.append(rawData.longitude.value)
         add = [coord,elev,date]
         trek.append(add)
         elev = 0

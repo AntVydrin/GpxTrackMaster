@@ -4,11 +4,11 @@
 import ReadGpxFile1 as readGPX
 import Distance
 
-FileName = 'testFiles/Трек_Памир_2.gpx'#Трек_Памир_2
+FileName = 'testFiles/trek_small.gpx'#Трек_Памир_2
 
 theElev = readGPX.ElevList(FileName)
 
-n = min(50,len(theElev))
+n = min(5,len(theElev))
 for i in range(0,n):
     print(theElev[i])
 
