@@ -69,6 +69,9 @@ def CreatePlot(processedData):
               #'white',
               #'whitesmoke',
               ]
+
+    #по умолчанию нужно отображать сетку
+    #matplotlib.rcParams['axes.grid'] = True
     
     for thePD in _processedData:
         insData = list(thePD.values())
