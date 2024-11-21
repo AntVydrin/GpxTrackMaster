@@ -70,8 +70,8 @@ def CreatePlot(processedData):
               #'whitesmoke',
               ]
 
-    #по умолчанию нужно отображать сетку
-    #matplotlib.rcParams['axes.grid'] = True
+    #отображаем кривые в одних осях на одном графике
+    fig, axes = plt.subplots()
     
     for thePD in _processedData:
         insData = list(thePD.values())
@@ -89,7 +89,7 @@ def CreatePlot(processedData):
             #Вставляем график для каждого дня
             x = plotDataDistance.copy()
             y = plotDataElev.copy()
-            plt.plot(x, y, label = oldDate, color=theColor, lw = 4)
+            axes.plot(x, y, label = oldDate, color=theColor, lw = 4)
             
             oldDate = insData[2]
             plotDataElev = []
@@ -104,7 +104,7 @@ def CreatePlot(processedData):
     x = plotDataDistance.copy()
     y = plotDataElev.copy()
     theColor = colors[dayCount]
-    plt.plot(x, y, label = plotDataDate[len(plotDataDate)-1], color=theColor, lw = 4)
+    axes.plot(x, y, label = plotDataDate[len(plotDataDate)-1], color=theColor, lw = 4)
     
     # включаем основную сетку
     plt.grid(which='major')
@@ -122,7 +122,8 @@ def CreatePlot(processedData):
     # Разрешить двигать легенду
     legend_obj = plt.legend(loc='upper left') #mode='expand', ncol=5
     legend_obj.set_draggable(True)
-    #plt.title("Трек")
-
+    
+    plt.title("Трек")
+   
     plt.show()
 
