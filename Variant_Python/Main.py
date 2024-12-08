@@ -28,6 +28,16 @@ def onButtonAddClicked(event):
         PlotSettings(graph_axes)
     plt.draw()
 
+def onButtonSaveClicked(event):
+    #Сохранить в изображение без кнопок
+    global axes_button_save
+    global axes_button_add
+    axes_button_add.set_visible(False)
+    axes_button_save.set_visible(False)
+    plt.savefig('Trek.png')
+    axes_button_add.set_visible(True)
+    axes_button_save.set_visible(True)
+
 def PlotSettings(graph_axes):
      # включаем основную сетку
     graph_axes.grid(which='major')
@@ -60,12 +70,16 @@ if __name__ == '__main__':
 
     # Создадим оси для кнопки
     axes_button_add = plt.axes([0.5, 0.01, 0.25, 0.075])
+    axes_button_save = plt.axes([0.05, 0.01, 0.25, 0.075])
+
 
     # Создадим кнопку
-    button_add = Button(axes_button_add, 'Добавить')
+    button_add = Button(axes_button_add, 'Трек gpx')
+    button_save = Button(axes_button_save, 'Сохранить картинку')
 
     # !!! Подпишемся на событие обработки нажатия кнопки
     button_add.on_clicked(onButtonAddClicked)
+    button_save.on_clicked(onButtonSaveClicked)
 
     #PlotSettings(graph_axes)
 
