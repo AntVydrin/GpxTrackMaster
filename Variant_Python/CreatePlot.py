@@ -1,8 +1,12 @@
-import matplotlib.pyplot as plt
+
 import matplotlib.colors
 
+
+
+
+
 #TODO: Отобразить снизу на оси дни с помощью text
-def CreatePlot(processedData):
+def CreatePlot(processedData, fig, axes):
     _processedData = [{"elev": 0.0, "Length": 0.0, "date": "21-10-2005"}]
     _processedData = processedData
     plotDataElev = []
@@ -69,7 +73,12 @@ def CreatePlot(processedData):
               #'white',
               #'whitesmoke',
               ]
-    
+
+    #по умолчанию нужно отображать сетку
+    #matplotlib.rcParams['axes.grid'] = True
+
+
+
     for thePD in _processedData:
         insData = list(thePD.values())
 
@@ -86,7 +95,11 @@ def CreatePlot(processedData):
             #Вставляем график для каждого дня
             x = plotDataDistance.copy()
             y = plotDataElev.copy()
-            plt.plot(x, y, label = oldDate, color=theColor, lw = 4)
+
+             # Выделим область, которую будет занимать график
+            #fig.subplots_adjust(left=0.7, right=1.0, top=1.0, bottom=0.8)
+
+            axes.plot(x, y, label = oldDate, color=theColor, lw = 4)
             
             oldDate = insData[2]
             plotDataElev = []
@@ -101,25 +114,13 @@ def CreatePlot(processedData):
     x = plotDataDistance.copy()
     y = plotDataElev.copy()
     theColor = colors[dayCount]
-    plt.plot(x, y, label = plotDataDate[len(plotDataDate)-1], color=theColor, lw = 4)
     
-    # включаем основную сетку
-    plt.grid(which='major')
-    plt.yticks(fontsize=17)
-    plt.xticks(fontsize=20)
-  
-    # включаем дополнительную сетку
-    # включаем дополнительные отметки на осях
-    plt.minorticks_on()
-    plt.grid(which='minor', linestyle=':')
-    plt.tight_layout()
-    # ax = plt.gca()
-    # ax.axes.xaxis.set_visible(False)
+   
 
-    # Разрешить двигать легенду
-    legend_obj = plt.legend(loc='upper left') #mode='expand', ncol=5
-    legend_obj.set_draggable(True)
-    #plt.title("Трек")
+    axes.plot(x, y, label = plotDataDate[len(plotDataDate)-1], color=theColor, lw = 4)
+    
+   
 
-    plt.show()
+
+
 
